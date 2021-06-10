@@ -1,0 +1,32 @@
+{
+  "name": "digiasset-encoder",
+  "version": "0.0.3",
+  "description": "Package to encode V3 DigiAsset",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "Matthew Cornelisse",
+  "license": "MIT",
+  "dependencies": {
+    "base58check": "^2.0.0",
+    "bit-io": "^1.0.4",
+    "cids": "^1.1.6",
+    "digiasset-decoder": "^0.1.13",
+    "digiasset-lookup": "^1.0.9",
+    "digiasset_v3_constants": "^1.0.2",
+    "digiassetx-digibyte-stream-types": "^1.0.7",
+    "got": "^11.8.2",
+    "ipfs-simple": "^0.0.6",
+    "outputpair": "^1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digiassetX/digiasset-encoder"
+  },
+  "devDependencies": {
+    "mocha": "^8.4.0",
+    "chai": "^4.3.4"
+  }
+}

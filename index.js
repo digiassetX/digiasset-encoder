@@ -1,14 +1,16 @@
 require('digiassetx-digibyte-stream-types');
 const ipfs=require('ipfs-simple');
 const lookup=require('digiasset-lookup');
+const decoder=require('digiasset-decoder');
 
 
 /**
  * Setup lookups s3 config
- * @param {{accessKeyId:string,secretAccessKey:string}} config
+ * @param {{accessKeyId:string,secretAccessKey:string}|function} config
  */
 module.exports.initS3=(config)=>{
     lookup.initS3(config);
+    decoder({s3:config});
 }
 
 /**

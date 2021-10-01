@@ -60,8 +60,9 @@ module.exports.DigiAssetTransferor=DigiAssetTransferor;
  */
 module.exports.transfer=async(utxos,assetOutputs,options={})=>{
     //create object
-    let {assetChange,coinChange,lookupUTXOs}=options;
+    let {assetChange,coinChange,lookupUTXOs=false}=options;
     let obj=new DigiAssetTransferor();
+    obj.forceLookup=lookupUTXOs;
     if (coinChange!==undefined) obj.DigiByteChangeAddress=coinChange;
     switch (typeof assetChange) {
         case "undefined":

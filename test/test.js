@@ -23,6 +23,7 @@ try {
     //config missing
     configMissing=true;
 }
+const {DigiAssetIssuer,DigiAssetTransferor}=encoder;
 
 const expect    = require("chai").expect;
 
@@ -38,7 +39,7 @@ const objectToString=(data)=>{
 }
 
 
-describe("V3 Encoding",function() {
+describe("V3 Encoding(Obsolete Methods)",function() {
     this.timeout(20000);
     it('create royalty test', async function() {
         try {
@@ -373,7 +374,7 @@ describe("V3 Encoding",function() {
             divisibility: 2,
             locked: true,
             aggregation: 'aggregatable',
-            changeAddress: 'DAPhmucYFtYg8CrHQNmsHYz55xKnijHYzB',
+            changeAddress: 'D7SU9Uenv9Nqi3Q1SMXE5gSC5EkLPMQu1F',
             rules: {
                 rewritable: false,
                 royalties: { DR9dkvsJzwmCwmPN5nXUkopVgirf2tRYoR: '100000000' },
@@ -385,7 +386,7 @@ describe("V3 Encoding",function() {
         expect(tx.outputs[1]["DR9dkvsJzwmCwmPN5nXUkopVgirf2tRYoR"]).to.equal("1.00000000");
         expect(tx.outputs[2]["data"]).to.equal("44410304063ba3d95960798a9cbb8919ff09ba9ea3f99e177839af95f295a6add28284bd20149800101f00201450");
         expect(parseFloat(tx.outputs[3]["dgb1qjnzadu643tsfzjqjydnh06s9lgzp3m4sg3j68x"])).to.greaterThan(0);
-        expect(parseFloat(tx.outputs[4]["DAPhmucYFtYg8CrHQNmsHYz55xKnijHYzB"])).to.greaterThan(0);
+        expect(parseFloat(tx.outputs[4]["D7SU9Uenv9Nqi3Q1SMXE5gSC5EkLPMQu1F"])).to.greaterThan(0);
     });
     it('royalty transfer to multiple addresses at once', async()=>{
         try {
@@ -446,4 +447,71 @@ describe("V3 Encoding",function() {
     });
     
 
+});
+
+describe("V3 Encoding Object Oriented",function() {
+    this.timeout(20000);
+    it('create royalty test', async function () {
+        try {
+            /**
+             * @type {{inputs: {txid: string, vout: int}[], outputs: {}[]}}
+             */
+            /** @type {DigiAssetIssuer} */let assetCreator=new DigiAssetIssuer({
+
+                assetName: "V3 Test",
+                description: "V3 test asset.  5DGB will be sent to DigiByte.rocks for each transfer.  Can only be sent to KYC addresses.",
+                urls: [
+                    {
+                        name: "icon",
+                        mimeType: "image/png",
+                        url: "ipfs://QmdtLCqzYNJdhJ545PxE247o6AxDmrx3YT9L5XXyddPR1M"
+                    }
+                ]
+
+            }, {
+                rules: {
+                    rewritable: true,
+                    royalties: {
+                        "DSXnZTQABeBrJEU5b2vpnysoGiiZwjKKDY": 500000000n
+                    }
+                },
+                locked: true
+            });
+            await assetCreator.addUTXO({
+                txid: "a3c0b13a3737f00ee593ae98f423c30f4a2004e7107e484927f2bf637b9c5212",
+                vout: 1,
+                value: 39999000n
+            });
+            await assetCreator.addUTXOs([{
+                txid: "8bbedee99f2361e2773b79893e8e99340713c3dbc4050cf2294c3a609ed7157a",
+                vout: 0,
+                value: 100199970758n
+            }]);
+            await assetCreator.addOutput("dgb1qh9tqqxe6k95y8vtlsp75yzavudav5lfyut0n3v",5n);
+            await assetCreator.addOutputs({
+                dgb1qx9mdulkmasph63c4v4e0x8zwhm62khsf83qc2w: 100n,
+                DGSJMJpj3dwx2yhgGg2Hi6Gpmo5YvVsPRd: 100n,
+                dgb1qxfkysf0r79ucjc5c37v75aew49c8d76sh4tny3: 100n
+            });
+            assetCreator.DigiByteChangeAddress="DPb98QJ8GLR6yBC8Ybt57ybrELDkM6w3bM";
+            await assetCreator.build();
+            let {inputs,outputs}=assetCreator.tx;
+
+            expect(inputs[0].txid).to.equal("a3c0b13a3737f00ee593ae98f423c30f4a2004e7107e484927f2bf637b9c5212");
+            expect(inputs[0].vout).to.equal(1);
+            expect(inputs[1].txid).to.equal("8bbedee99f2361e2773b79893e8e99340713c3dbc4050cf2294c3a609ed7157a");
+            expect(inputs[1].vout).to.equal(0);
+            expect(outputs[0]["dgb1qx9mdulkmasph63c4v4e0x8zwhm62khsf83qc2w"]).to.equal("0.00000600");
+            expect(outputs[1]["DGSJMJpj3dwx2yhgGg2Hi6Gpmo5YvVsPRd"]).to.equal("0.00000600");
+            expect(outputs[2]["dgb1qxfkysf0r79ucjc5c37v75aew49c8d76sh4tny3"]).to.equal("0.00000600");
+            expect(outputs[3]["dgb1qh9tqqxe6k95y8vtlsp75yzavudav5lfyut0n3v"]).to.equal("0.00000600");
+            expect(outputs[4]["DSXnZTQABeBrJEU5b2vpnysoGiiZwjKKDY"]).to.equal("5.00000000");
+            expect(outputs[5]["data"]).to.equal("44410303937ebf5461050a066f75ef1c323e605fbbdf9fc926c49f0fdafe128b3a8d353e331010401f03054002201210");
+            expect(parseFloat(outputs[6]["dgb1qjnzadu643tsfzjqjydnh06s9lgzp3m4sg3j68x"])).to.greaterThan(0);
+            expect(parseFloat(outputs[7]["DPb98QJ8GLR6yBC8Ybt57ybrELDkM6w3bM"])).to.greaterThan(0);
+        } catch (e) {
+            console.log(e);
+            expect(true).to.equal(false);
+        }
+    });
 });

@@ -1,6 +1,6 @@
 {
   "name": "digiasset-encoder",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Package to encode V3 DigiAsset",
   "main": "index.js",
   "scripts": {
@@ -12,13 +12,12 @@
   "dependencies": {
     "base58check": "^2.0.0",
     "bit-io": "^1.0.4",
-    "cids": "^1.1.6",
-    "digiasset-decoder": "^0.1.19",
-    "digiasset-lookup": "^1.0.14",
+    "digiasset-decoder": "^0.1.20",
+    "digiasset-lookup": "^1.0.15",
     "digiasset_v3_constants": "^1.0.2",
     "digiassetx-digibyte-stream-types": "^1.0.8",
     "got": "^11.8.2",
-    "ipfs-simple": "^0.0.12",
+    "ipfs-simple": "^0.0.13",
     "outputpair": "^1.0.1"
   },
   "repository": {

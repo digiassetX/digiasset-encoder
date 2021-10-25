@@ -509,6 +509,10 @@ describe("V3 Encoding Object Oriented",function() {
             expect(outputs[5]["data"]).to.equal("44410303937ebf5461050a066f75ef1c323e605fbbdf9fc926c49f0fdafe128b3a8d353e331010401f03054002201210");
             expect(parseFloat(outputs[6]["dgb1qjnzadu643tsfzjqjydnh06s9lgzp3m4sg3j68x"])).to.greaterThan(0);
             expect(parseFloat(outputs[7]["DPb98QJ8GLR6yBC8Ybt57ybrELDkM6w3bM"])).to.greaterThan(0);
+            console.log(512);
+            console.log(assetCreator.decodedTx);
+            console.log(514);
+            console.log(assetCreator.changes);
         } catch (e) {
             console.log(e);
             expect(true).to.equal(false);

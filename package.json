@@ -1,6 +1,6 @@
 {
   "name": "digiasset-encoder",
-  "version": "0.1.16",
+  "version": "0.2.2",
   "description": "Package to encode V3 DigiAsset",
   "main": "index.js",
   "scripts": {
@@ -12,8 +12,8 @@
   "dependencies": {
     "base58check": "^2.0.0",
     "bit-io": "^1.0.6",
-    "digiasset-decoder": "^0.1.23",
-    "digiasset-lookup": "^1.0.16",
+    "digiasset-decoder": "^0.2.2",
+    "digiasset-lookup": "^1.0.17",
     "digiasset_v3_constants": "^1.0.2",
     "digiassetx-digibyte-stream-types": "^1.0.8",
     "got": "^11.8.2",

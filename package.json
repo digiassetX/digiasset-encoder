@@ -1,6 +1,6 @@
 {
   "name": "digiasset-encoder",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Package to encode V3 DigiAsset",
   "main": "index.js",
   "scripts": {

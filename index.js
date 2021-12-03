@@ -16,10 +16,18 @@ module.exports.initS3=(config)=>{
 
 /**
  * If not using default use to change IPFS desktop path
- * @param {string} config
+ * @param {string|IPFS|true} config
  */
-module.exports.initIPFS=(config)=>{
-    ipfs.path=config;
+module.exports.initIPFS=async(config)=>{
+    if (config===false) return; //not expected input but just in case
+    if (config===true)  {
+        await ipfs.create();
+        config=ipfs.core;
+    } else {
+        ipfs.init(config);
+    }
+    lookup.initIPFS(config);
+    await decoder({ipfs:config});
 }
 
 /**

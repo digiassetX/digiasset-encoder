@@ -8,6 +8,7 @@ module.exports={
   }
 }
 **************************************************************** */
+const got=require("got");
 const encoder = require('../index');
 let configMissing=false;
 let config= {
@@ -38,6 +39,8 @@ const objectToString=(data)=>{
     );
 }
 
+
+encoder.initIPFS(true);
 
 describe("V3 Encoding(Obsolete Methods)",function() {
     this.timeout(20000);
@@ -190,95 +193,6 @@ describe("V3 Encoding(Obsolete Methods)",function() {
         expect(tx.outputs[2]["data"]).to.equal("4441031540012051");
         expect(tx.outputs[3]["DSXnZTQABeBrJEU5b2vpnysoGiiZwjKKDY"]).to.equal("5.00000000");
         expect(tx.outputs[4]["DPb98QJ8GLR6yBC8Ybt57ybrELDkM6w3bM"]).to.equal("978.37583558");
-    });
-    it('create vote asset',async()=>{
-        /**
-         * @type {{inputs: {txid: string, vout: int}[], outputs: {}[]}}
-         */
-        let tx = await encoder.issuance(
-            [
-                {
-                    "txid": "1892fb5840fc208af64c290da625be91ff6ad7fe09ef6dd05ed3ae64f6fb94da",
-                    "vout": 1,
-                    value: 49999000n
-                }
-            ], {
-                dgb1qxfkysf0r79ucjc5c37v75aew49c8d76sh4tny3: 10n
-            }, {
-
-                assetName: "V3 Test Vote Issuance",
-                description: "V3 vote test asset.  To vote send to one of the vote addresses.  Sending to any other address will burn the asset.  Vote expires at block 14Million"
-
-            }, {
-                rules: {
-                    rewritable: false,
-                    vote: {
-                        movable: false,
-                        cutoff: 14000000,
-                        options:    [
-                            "spaceX is the best",
-                            "spaceX is cool",
-                            "Why does Matthew care so much about spaceX",
-                            "1+1=3"
-                        ]
-                    }
-                },
-                locked: false,
-                changeAddress: "DPb98QJ8GLR6yBC8Ybt57ybrELDkM6w3bM"
-            }
-        );
-        expect(tx.inputs[0].txid).to.equal("1892fb5840fc208af64c290da625be91ff6ad7fe09ef6dd05ed3ae64f6fb94da");
-        expect(tx.inputs[0].vout).to.equal(1);
-        expect(tx.outputs[0]["dgb1qxfkysf0r79ucjc5c37v75aew49c8d76sh4tny3"]).to.equal("0.00000600");
-        expect(tx.outputs[1]["data"]).to.equal("444103047a9a016c2ef0dea7b423684acfa1b63d2bb18ca9af14b80de5641380915f8fec0a40420e600f000a00");
-        expect(parseFloat(tx.outputs[2]["dgb1qjnzadu643tsfzjqjydnh06s9lgzp3m4sg3j68x"])).to.greaterThan(0);
-        expect(parseFloat(tx.outputs[3]["DPb98QJ8GLR6yBC8Ybt57ybrELDkM6w3bM"])).to.greaterThan(0);
-    });
-    it('move 1 vote to vote address 1', async()=> {
-        /**
-         * @type {{inputs: {txid: string, vout: int}[], outputs: {}[]}}
-         */
-        let tx=await encoder.transfer([
-            {
-                //has 100 assets
-                txid:   "c9995bf82a24355b0ea9e0aafebf431b90d23cecf05e72d8069d7ed6ab033fac",
-                vout:   0,
-                value:  600n,
-                scriptPubKey:   {
-                    addresses:  ["dgb1qxfkysf0r79ucjc5c37v75aew49c8d76sh4tny3"]
-                },
-                assets: [
-                    {
-                        assetId:    "Ua9hJ3q7zKnaRZS9E5frb3Ukon6aBNNgxLX3i5",
-                        amount:     10n,
-                        decimals:   0
-                    }
-                ]
-            },
-            {
-                txid:   "9a6bac5ec84afa748dbe3a1c9760382ec53e608c339ed17a939cbcae2cf7e7e8",
-                vout:   1,
-                value:  82153247693n,
-                scriptPubKey:   {
-                    addresses:  ["DAPhmucYFtYg8CrHQNmsHYz55xKnijHYzB"]
-                }
-            }
-        ],{
-            Ua9hJ3q7zKnaRZS9E5frb3Ukon6aBNNgxLX3i5: {
-                "D8LWk1fGksGDxZai17A5wQUVsRiV69Nk7J": 1n,
-                "dgb1qxfkysf0r79ucjc5c37v75aew49c8d76sh4tny3":  9n
-            }
-        },{
-            lookupUTXOs:    false
-        });
-        expect(tx.inputs[0].txid).to.equal("c9995bf82a24355b0ea9e0aafebf431b90d23cecf05e72d8069d7ed6ab033fac");
-        expect(tx.inputs[0].vout).to.equal(0);
-        expect(tx.inputs[1].txid).to.equal("9a6bac5ec84afa748dbe3a1c9760382ec53e608c339ed17a939cbcae2cf7e7e8");
-        expect(tx.inputs[1].vout).to.equal(1);
-        expect(tx.outputs[0]["dgb1qxfkysf0r79ucjc5c37v75aew49c8d76sh4tny3"]).to.equal("0.00000600");
-        expect(tx.outputs[1]["D8LWk1fGksGDxZai17A5wQUVsRiV69Nk7J"]).to.equal("0.00000600");
-        expect(tx.outputs[2]["data"]).to.equal("4441031501010009");
-        expect(tx.outputs[3]["DAPhmucYFtYg8CrHQNmsHYz55xKnijHYzB"]).to.equal("821.53246523");
     });
     it('move 1 vote to non vote address 1', async()=> {
         try {

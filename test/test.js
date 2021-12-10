@@ -233,7 +233,7 @@ describe("V3 Encoding(Obsolete Methods)",function() {
             });
             expect(true).to.equal(false);
         } catch (e) {
-            expect(e.toString()).to.equal("DAPhmucYFtYg8CrHQNmsHYz55xKnijHYzB is not a valid vote option");
+            expect(e.toString()).to.equal("ExpectedError: DAPhmucYFtYg8CrHQNmsHYz55xKnijHYzB is not a valid vote option");
         }
     });
     it('create royalty address with cad value', async()=> {
@@ -474,7 +474,7 @@ describe("V3 Encoding Object Oriented",function() {
             await assetCreator.build();
             expect(true).to.equal(false);
         } catch (e) {
-            expect(e.toString()).to.equal("Invalid Rule Detected: Already Expired");
+            expect(e.toString()).to.equal("ExpectedError: Invalid Rule Detected: Already Expired");
         }
     });
 
@@ -564,7 +564,7 @@ describe("V3 Encoding Object Oriented",function() {
             await assetCreator.build();
             expect(true).to.equal(false);   //should not reach
         } catch (e) {
-            expect(e.toString()).to.equal("Invalid Rule Detected: Already Expired");
+            expect(e.toString()).to.equal("ExpectedError: Invalid Rule Detected: Already Expired");
         }
     });
 });
